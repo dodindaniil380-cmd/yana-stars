@@ -18,7 +18,6 @@
             background: radial-gradient(ellipse at center, #0a0a2a 0%, #02010a 100%);
         }
 
-        /* Общие стили */
         .intro-overlay {
             position: fixed;
             top: 0;
@@ -83,11 +82,6 @@
             color: #2c0a2a;
             cursor: pointer;
             width: 100%;
-            transition: transform 0.2s;
-        }
-
-        .intro-card button:active {
-            transform: scale(0.97);
         }
 
         .music-controls {
@@ -113,11 +107,6 @@
             border-radius: 50%;
             cursor: pointer;
             color: #2a001f;
-            transition: transform 0.1s;
-        }
-
-        .music-controls button:active {
-            transform: scale(0.95);
         }
 
         .info-panel {
@@ -160,7 +149,6 @@
             padding: 20px;
             text-align: center;
             border: 2px solid #ff99dd;
-            box-shadow: 0 0 40px rgba(255,80,180,0.4);
             max-height: 85%;
             overflow-y: auto;
         }
@@ -212,7 +200,7 @@
             z-index: 1001;
         }
 
-        /* 2D режим (телефон) */
+        /* 2D режим */
         .mode-2d {
             display: none;
             padding: 20px;
@@ -230,11 +218,6 @@
             text-shadow: 0 0 15px #c85bbf;
         }
 
-        .mode-2d .greeting span {
-            color: #ffb3e6;
-            font-weight: bold;
-        }
-
         .stars-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -250,7 +233,6 @@
             aspect-ratio: 1 / 1;
             max-width: 100px;
             cursor: pointer;
-            transition: transform 0.1s ease;
             animation: starTwinkle 2s infinite alternate;
         }
 
@@ -273,8 +255,6 @@
             justify-content: center;
             font-size: 1.8rem;
             box-shadow: 0 0 15px rgba(255,215,0,0.5);
-            background-size: cover;
-            background-position: center;
         }
 
         .special-star .star-shape {
@@ -311,6 +291,9 @@
             width: 100%;
             height: 100vh;
             overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
 
         @media (min-width: 768px) {
@@ -336,17 +319,6 @@
     </div>
 </div>
 
-<!-- 3D режим (ПК) -->
-<div class="mode-3d" id="mode3d">
-    <div class="info-panel" id="infoPanel3d" style="display: none;">
-        🌟 <span id="hoverMemoryText3d">Наведи на звезду</span>
-    </div>
-    <div class="music-controls" id="musicPanel3d" style="display: none;">
-        <button id="play3dMusic">🎵</button>
-        <button id="pause3dMusic">⏸️</button>
-    </div>
-</div>
-
 <!-- 2D режим (телефон) -->
 <div class="mode-2d" id="mode2d">
     <div class="greeting">
@@ -362,6 +334,17 @@
     </div>
 </div>
 
+<!-- 3D режим (ПК) -->
+<div class="mode-3d" id="mode3d">
+    <div class="info-panel" id="infoPanel3d" style="display: none;">
+        🌟 <span id="hoverMemoryText3d">Наведи на звезду</span>
+    </div>
+    <div class="music-controls" id="musicPanel3d" style="display: none;">
+        <button id="play3dMusic">🎵</button>
+        <button id="pause3dMusic">⏸️</button>
+    </div>
+</div>
+
 <div class="modal" id="photoModal">
     <button class="close-modal" id="closeModalBtn">×</button>
     <div class="modal-card">
@@ -372,7 +355,16 @@
     </div>
 </div>
 
-<script>
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+        }
+    }
+</script>
+
+<script type="module">
     // ========== ОБЩИЕ ДАННЫЕ ==========
     const loveText = "Яночка, я хочу сказать, что я безумно сильно тебя люблю, моя радость, больше всех на свете, очень сильно обожаю, только тебя одну\n\nЯ решил это сделать не по какому то поводу, это для тебя, напоминание о том, как я сильно дорожу тобой, как я сильно дорожу нами\n\nЯ понимаю, что в последнее время тебе тяжело, ты устала от всего, устала быть дома, хочется свободы, тебе хочется своей жизни, уехать отсюда\n\nя все это понимаю Ян, я всего этого же хочу, что и ты, нужно просто потерпеть, и у нас все наладится, я обещаю\n\nЯн, знай, чтобы не случилось, чтобы не происходило, я всегда буду рядом, где бы я не находился, только с тобой, я навеки твой, и только твой\n\nЯ люблю тебя очень сильно, моя радость, больше всех на свете, только тебя одну, ты у меня единственная, самая прекрасная, неповторимая, самая дорогая, самая родная и самая любимая, самая лучшая, ты мое все Яночка, только ты одна\n\nСпасибо тебе просто за то что ты есть, всегда поддерживаешь меня и любишь, за то что ты всегда рядом, я очень сильно люблю тебя, Яночка\n\nКаждая из этих 33 звезд, это напоминание о том, через что мы прошли, и все эти звезды, это только начало.\n\nЯ тебя очень сильно люблю, твой Данька";
 
@@ -452,7 +444,6 @@
         displayNameSpan.textContent = userName;
         starsGrid.innerHTML = '';
         
-        // Создаём 33 звезды
         memories.forEach((mem, idx) => {
             const starCard = document.createElement('div');
             starCard.className = 'star-card';
@@ -473,7 +464,6 @@
             starsGrid.appendChild(starCard);
         });
         
-        // Создаём особенную звезду (34-я)
         const specialCard = document.createElement('div');
         specialCard.className = 'star-card special-star';
         const specialShape = document.createElement('div');
@@ -496,7 +486,6 @@
         infoPanel2d.style.display = 'block';
         musicPanel2d.style.display = 'flex';
         
-        // Музыка для 2D
         const bgMusic2d = new Audio("song.mp3");
         bgMusic2d.loop = true;
         bgMusic2d.volume = 0.3;
@@ -504,8 +493,11 @@
         document.getElementById('pause2dMusic').onclick = () => bgMusic2d.pause();
     }
     
-    // ========== 3D РЕЖИМ (ПК) С КОЛЬЦАМИ ==========
+    // ========== 3D РЕЖИМ (ПК) ==========
     async function init3DMode(userName) {
+        const THREE = await import('three');
+        const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
+        
         const mode3d = document.getElementById('mode3d');
         const infoPanel3d = document.getElementById('infoPanel3d');
         const musicPanel3d = document.getElementById('musicPanel3d');
@@ -514,9 +506,6 @@
         infoPanel3d.style.display = 'block';
         musicPanel3d.style.display = 'flex';
         
-        const THREE = await import('three');
-        const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
-        
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x010118);
         scene.fog = new THREE.FogExp2(0x010118, 0.006);
@@ -524,9 +513,9 @@
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.set(0, 2, 15);
         
-        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(window.devicePixelRatio);
         mode3d.appendChild(renderer.domElement);
         
         const controls = new OrbitControls(camera, renderer.domElement);
@@ -538,15 +527,13 @@
         controls.enablePan = false;
         controls.target.set(0, 0, 0);
         
-        // КРАСИВЫЕ КОЛЬЦА (оптимизированные)
-        // Кольцо 1 - розовое, горизонтальное
+        // Кольца
         const ring1Geo = new THREE.TorusGeometry(4.5, 0.06, 32, 200);
         const ring1Mat = new THREE.MeshStandardMaterial({ color: 0xff88aa, emissive: 0x552233, emissiveIntensity: 0.3 });
         const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
         ring1.rotation.x = Math.PI / 2;
         scene.add(ring1);
         
-        // Кольцо 2 - голубое, наклонное
         const ring2Geo = new THREE.TorusGeometry(5.8, 0.05, 32, 200);
         const ring2Mat = new THREE.MeshStandardMaterial({ color: 0x88aaff, emissive: 0x224466, emissiveIntensity: 0.25 });
         const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
@@ -554,14 +541,13 @@
         ring2.rotation.z = 0.3;
         scene.add(ring2);
         
-        // Кольцо 3 - золотое, маленькое, вокруг особенной звезды (упрощённое)
         const ring3Geo = new THREE.TorusGeometry(1.2, 0.04, 24, 100);
         const ring3Mat = new THREE.MeshStandardMaterial({ color: 0xffaa55, emissive: 0xff6600, emissiveIntensity: 0.4 });
         const ring3 = new THREE.Mesh(ring3Geo, ring3Mat);
         scene.add(ring3);
         
         // Фоновые звёзды
-        const bgStarCount = 800;
+        const bgStarCount = 600;
         const bgStarsGeo = new THREE.BufferGeometry();
         const bgStarPositions = new Float32Array(bgStarCount * 3);
         for (let i = 0; i < bgStarCount; i++) {
@@ -599,7 +585,6 @@
         scene.add(starsGroup);
         const starObjects = [];
         
-        // 33 звезды
         for (let i = 0; i < memories.length; i++) {
             const mem = memories[i];
             const radius = 4 + Math.random() * 3.5;
@@ -618,7 +603,6 @@
             });
         }
         
-        // Особенная звезда
         const specialStar = createStar("#FFD700", 0.5, true);
         specialStar.position.set(1.5, 1.2, 2.5);
         starsGroup.add(specialStar);
@@ -627,7 +611,6 @@
             defaultX: 1.5, defaultY: 1.2, defaultZ: 2.5, floatSpeed: 0.4
         });
         
-        // Освещение
         const ambientLight = new THREE.AmbientLight(0x331144);
         scene.add(ambientLight);
         const mainLight = new THREE.PointLight(0xffaaee, 0.6);
@@ -685,7 +668,6 @@
             requestAnimationFrame(animate);
             time += 0.012;
             
-            // Анимация колец
             ring1.rotation.z = time * 0.3;
             ring2.rotation.y = time * 0.2;
             ring3.position.x = 1.5 + Math.sin(time * 1.5) * 0.08;
@@ -693,7 +675,6 @@
             ring3.position.z = 2.5 + Math.sin(time * 1.2) * 0.05;
             ring3.rotation.z = time * 2;
             
-            // Анимация звёзд
             starObjects.forEach((obj, idx) => {
                 obj.group.position.x = obj.defaultX + Math.sin(time * obj.floatSpeed + idx) * 0.05;
                 obj.group.position.y = obj.defaultY + Math.cos(time * obj.floatSpeed * 0.8 + idx) * 0.05;
@@ -725,17 +706,17 @@
     const enterBtn = document.getElementById('enterUniverseBtn');
     const nameInput = document.getElementById('girlName');
     
-    enterBtn.addEventListener('click', () => {
+    enterBtn.addEventListener('click', async () => {
         let userName = nameInput.value.trim();
         if (userName === "") userName = "Яна";
         
         overlay.style.opacity = '0';
-        setTimeout(() => {
+        setTimeout(async () => {
             overlay.style.display = 'none';
             if (isMobile) {
                 init2DMode(userName);
             } else {
-                init3DMode(userName);
+                await init3DMode(userName);
             }
         }, 500);
     });
