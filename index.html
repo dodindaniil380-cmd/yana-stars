@@ -507,7 +507,7 @@
             const hit = checkIntersection(e.clientX, e.clientY);
             if (hit) {
                 if (hit.isSpecial) {
-                    alert(`💛💛💛 ${hit.title} 💛💛💛\n\n${hit.desc}\n\n✨ Твой Данька, который любит тебя больше всех на свете ✨`);
+                    alert(`💛💛💛 ${hit.title} 💛💛💛\n\n${hit.desc}\n\n`);
                 } else {
                     openModal(hit.title, hit.desc, hit.photo);
                 }
