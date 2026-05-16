@@ -18,7 +18,6 @@
             background: #010118;
         }
 
-        /* Экран ввода */
         .intro-overlay {
             position: fixed;
             top: 0;
@@ -85,7 +84,6 @@
             width: 100%;
         }
 
-        /* Музыкальные кнопки */
         .music-controls {
             position: fixed;
             bottom: 20px;
@@ -202,7 +200,6 @@
             z-index: 1001;
         }
 
-        /* 3D контейнер */
         .universe-container {
             display: none;
             width: 100%;
@@ -236,11 +233,10 @@
 </div>
 
 <div class="universe-container" id="universeContainer">
-    <canvas id="canvas3d" style="width:100%;height:100%;display:block;"></canvas>
-    <div class="info-panel" id="infoPanel">
+    <div class="info-panel" id="infoPanel" style="display: none;">
         🌟 <span id="hoverMemoryText">Наведи на звезду</span>
     </div>
-    <div class="music-controls" id="musicPanel">
+    <div class="music-controls" id="musicPanel" style="display: none;">
         <button id="playMusic">🎵</button>
         <button id="pauseMusic">⏸️</button>
     </div>
@@ -269,10 +265,8 @@
     import * as THREE from 'three';
     import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-    // ========== ТЕКСТ ЛЮБВИ ==========
     const loveText = "Яночка, я хочу сказать, что я безумно сильно тебя люблю, моя радость, больше всех на свете, очень сильно обожаю, только тебя одну\n\nЯ решил это сделать не по какому то поводу, это для тебя, напоминание о том, как я сильно дорожу тобой, как я сильно дорожу нами\n\nЯ понимаю, что в последнее время тебе тяжело, ты устала от всего, устала быть дома, хочется свободы, тебе хочется своей жизни, уехать отсюда\n\nя все это понимаю Ян, я всего этого же хочу, что и ты, нужно просто потерпеть, и у нас все наладится, я обещаю\n\nЯн, знай, чтобы не случилось, чтобы не происходило, я всегда буду рядом, где бы я не находился, только с тобой, я навеки твой, и только твой\n\nЯ люблю тебя очень сильно, моя радость, больше всех на свете, только тебя одну, ты у меня единственная, самая прекрасная, неповторимая, самая дорогая, самая родная и самая любимая, самая лучшая, ты мое все Яночка, только ты одна\n\nСпасибо тебе просто за то что ты есть, всегда поддерживаешь меня и любишь, за то что ты всегда рядом, я очень сильно люблю тебя, Яночка\n\nКаждая из этих 33 звезд, это напоминание о том, через что мы прошли, и все эти звезды, это только начало.\n\nЯ тебя очень сильно люблю, твой Данька";
 
-    // ========== ВОСПОМИНАНИЯ ==========
     const memories = [
         { title: "Пуговка", desc: "А это наша с тобой фотография на пуговке, единственная, такой больше ни у кого нет", photo: "images/1.jpg" },
         { title: "Пригорок", desc: "А здесь мы дурачимся на пригорке", photo: "images/2.jpg" },
@@ -309,7 +303,7 @@
         { title: "Поле", desc: "А здесь мы снова в поле, ты лучшее, что со мной случилось", photo: "images/34.jpg" }
     ];
 
-    // ========== МОДАЛЬНОЕ ОКНО ==========
+    // Модальное окно
     const modal = document.getElementById('photoModal');
     const modalImage = document.getElementById('modalImage');
     const modalTitle = document.getElementById('modalTitle');
@@ -335,7 +329,7 @@
     document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-    // ========== 3D СЦЕНА ==========
+    // 3D сцена
     function init3DScene(userName) {
         const container = document.getElementById('universeContainer');
         const infoPanel = document.getElementById('infoPanel');
@@ -345,27 +339,20 @@
         infoPanel.style.display = 'block';
         musicPanel.style.display = 'flex';
         
-        // Сцена
+        const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768;
+        
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x010118);
         scene.fog = new THREE.FogExp2(0x010118, 0.006);
         
-        // Камера (адаптация под телефон)
-        const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768;
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        if (isMobile) {
-            camera.position.set(0, 1.5, 16);
-        } else {
-            camera.position.set(0, 2, 14);
-        }
+        camera.position.set(0, isMobile ? 1.5 : 2, isMobile ? 16 : 14);
         
-        // Рендерер
         const renderer = new THREE.WebGLRenderer({ antialias: !isMobile });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
         
-        // Управление
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
@@ -376,26 +363,29 @@
         controls.rotateSpeed = isMobile ? 0.8 : 1;
         controls.target.set(0, 0, 0);
         
-        // Вращающиеся кольца
-        const ring1Geo = new THREE.TorusGeometry(4.5, 0.06, 32, 200);
-        const ring1Mat = new THREE.MeshStandardMaterial({ color: 0xff88aa, emissive: 0x552233, emissiveIntensity: 0.3 });
-        const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
+        // Кольца
+        const ring1 = new THREE.Mesh(
+            new THREE.TorusGeometry(4.5, 0.06, 32, 200),
+            new THREE.MeshStandardMaterial({ color: 0xff88aa, emissive: 0x552233, emissiveIntensity: 0.3 })
+        );
         ring1.rotation.x = Math.PI / 2;
         scene.add(ring1);
         
-        const ring2Geo = new THREE.TorusGeometry(5.8, 0.05, 32, 200);
-        const ring2Mat = new THREE.MeshStandardMaterial({ color: 0x88aaff, emissive: 0x224466, emissiveIntensity: 0.25 });
-        const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+        const ring2 = new THREE.Mesh(
+            new THREE.TorusGeometry(5.8, 0.05, 32, 200),
+            new THREE.MeshStandardMaterial({ color: 0x88aaff, emissive: 0x224466, emissiveIntensity: 0.25 })
+        );
         ring2.rotation.x = Math.PI / 2 + 0.4;
         ring2.rotation.z = 0.3;
         scene.add(ring2);
         
-        const ring3Geo = new THREE.TorusGeometry(1.2, 0.04, 24, 100);
-        const ring3Mat = new THREE.MeshStandardMaterial({ color: 0xffaa55, emissive: 0xff6600, emissiveIntensity: 0.4 });
-        const ring3 = new THREE.Mesh(ring3Geo, ring3Mat);
+        const ring3 = new THREE.Mesh(
+            new THREE.TorusGeometry(1.2, 0.04, 24, 100),
+            new THREE.MeshStandardMaterial({ color: 0xffaa55, emissive: 0xff6600, emissiveIntensity: 0.4 })
+        );
         scene.add(ring3);
         
-        // Фоновые звёзды (частицы)
+        // Фоновые звёзды
         const bgStarCount = isMobile ? 400 : 800;
         const bgStarsGeo = new THREE.BufferGeometry();
         const bgStarPositions = new Float32Array(bgStarCount * 3);
@@ -405,11 +395,10 @@
             bgStarPositions[i*3+2] = (Math.random() - 0.5) * 120 - 60;
         }
         bgStarsGeo.setAttribute('position', new THREE.BufferAttribute(bgStarPositions, 3));
-        const bgStarsMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, transparent: true, opacity: 0.4 });
-        const backgroundStars = new THREE.Points(bgStarsGeo, bgStarsMat);
+        const backgroundStars = new THREE.Points(bgStarsGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, transparent: true, opacity: 0.4 }));
         scene.add(backgroundStars);
         
-        // Функция создания звезды
+        // Создание звезды
         function createStar(color, size = 0.28, isSpecial = false) {
             const group = new THREE.Group();
             const core = new THREE.Mesh(
@@ -435,7 +424,7 @@
         scene.add(starsGroup);
         const starObjects = [];
         
-        // Создаём 33 звезды
+        // 33 звезды
         for (let i = 0; i < memories.length; i++) {
             const mem = memories[i];
             const radius = 4 + Math.random() * 3;
@@ -449,27 +438,18 @@
             star.position.set(x, y, z);
             starsGroup.add(star);
             starObjects.push({
-                group: star,
-                title: mem.title,
-                desc: mem.desc,
-                photo: mem.photo,
-                isSpecial: false,
-                defaultX: x, defaultY: y, defaultZ: z,
-                floatSpeed: 0.2 + Math.random() * 0.4
+                group: star, title: mem.title, desc: mem.desc, photo: mem.photo, isSpecial: false,
+                defaultX: x, defaultY: y, defaultZ: z, floatSpeed: 0.2 + Math.random() * 0.4
             });
         }
         
-        // Особенная звезда
+        // 34-я звезда (особенная)
         const specialStar = createStar("#FFD700", 0.48, true);
         specialStar.position.set(1.5, 1.2, 2.5);
         starsGroup.add(specialStar);
         starObjects.push({
-            group: specialStar,
-            title: "💛 МОЯ ЛЮБОВЬ К ТЕБЕ 💛",
-            desc: loveText,
-            isSpecial: true,
-            defaultX: 1.5, defaultY: 1.2, defaultZ: 2.5,
-            floatSpeed: 0.35
+            group: specialStar, title: "💛 МОЯ ЛЮБОВЬ К ТЕБЕ 💛", desc: loveText, isSpecial: true,
+            defaultX: 1.5, defaultY: 1.2, defaultZ: 2.5, floatSpeed: 0.35
         });
         
         // Освещение
@@ -482,7 +462,7 @@
         backLight.position.set(-2, -1, -4);
         scene.add(backLight);
         
-        // Raycaster для взаимодействия
+        // Взаимодействие
         const infoSpan = document.getElementById('hoverMemoryText');
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
@@ -505,13 +485,10 @@
             return null;
         }
         
-        // Обработчики мыши
         window.addEventListener('mousemove', (e) => {
             const hit = checkIntersection(e.clientX, e.clientY);
             if (hit && currentHovered !== hit.group) {
-                if (currentHovered) {
-                    currentHovered.children.forEach(c => { if (c.material) c.material.emissiveIntensity = 0.5; });
-                }
+                if (currentHovered) currentHovered.children.forEach(c => { if (c.material) c.material.emissiveIntensity = 0.5; });
                 currentHovered = hit.group;
                 currentHovered.children.forEach(c => { if (c.material) c.material.emissiveIntensity = 1.0; });
                 infoSpan.innerHTML = hit.isSpecial ? `💛✨ ${hit.title} ✨💛` : `📸 ${hit.title}`;
@@ -533,15 +510,13 @@
             }
         });
         
-        // Обработчики касаний для телефона
+        // Touch для телефона
         let touchTimer;
         renderer.domElement.addEventListener('touchmove', (e) => {
             if (e.touches.length) {
                 const hit = checkIntersection(e.touches[0].clientX, e.touches[0].clientY);
                 if (hit && currentHovered !== hit.group) {
-                    if (currentHovered) {
-                        currentHovered.children.forEach(c => { if (c.material) c.material.emissiveIntensity = 0.5; });
-                    }
+                    if (currentHovered) currentHovered.children.forEach(c => { if (c.material) c.material.emissiveIntensity = 0.5; });
                     currentHovered = hit.group;
                     currentHovered.children.forEach(c => { if (c.material) c.material.emissiveIntensity = 1.0; });
                     infoSpan.innerHTML = hit.isSpecial ? `💛✨ ${hit.title} ✨💛` : `📸 ${hit.title}`;
@@ -574,7 +549,6 @@
             requestAnimationFrame(animate);
             time += 0.012;
             
-            // Анимация колец
             ring1.rotation.z = time * 0.3;
             ring2.rotation.y = time * 0.2;
             ring3.position.x = 1.5 + Math.sin(time * 1.5) * 0.08;
@@ -582,7 +556,6 @@
             ring3.position.z = 2.5 + Math.sin(time * 1.2) * 0.05;
             ring3.rotation.z = time * 2;
             
-            // Анимация звёзд
             starObjects.forEach((obj, idx) => {
                 obj.group.position.x = obj.defaultX + Math.sin(time * obj.floatSpeed + idx) * 0.05;
                 obj.group.position.y = obj.defaultY + Math.cos(time * obj.floatSpeed * 0.9 + idx) * 0.05;
@@ -604,17 +577,14 @@
         document.getElementById('playMusic').onclick = () => bgMusic.play().catch(e => console.log());
         document.getElementById('pauseMusic').onclick = () => bgMusic.pause();
         
-        // Адаптация под resize
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
-        
-        console.log("✨ 3D сцена запущена ✨");
     }
     
-    // ========== ЗАПУСК ==========
+    // Запуск
     const overlay = document.getElementById('introOverlay');
     const enterBtn = document.getElementById('enterUniverseBtn');
     const nameInput = document.getElementById('girlName');
