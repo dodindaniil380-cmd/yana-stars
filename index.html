@@ -10,6 +10,7 @@
             overflow: hidden;
             font-family: 'Segoe UI', 'Poppins', 'Arial', sans-serif;
             touch-action: none;
+            background: #010118;
         }
 
         .intro-overlay {
@@ -35,7 +36,6 @@
             text-align: center;
             border: 1px solid rgba(255, 180, 230, 0.6);
             box-shadow: 0 0 80px rgba(255, 80, 180, 0.4);
-            animation: gentlePulse 2.5s infinite alternate;
             width: 85%;
             max-width: 400px;
         }
@@ -78,11 +78,6 @@
             color: #2c0a2a;
             cursor: pointer;
             transition: 0.2s;
-            box-shadow: 0 5px 20px #ff44aa;
-        }
-
-        .intro-card button:active {
-            transform: scale(0.98);
         }
 
         .info-panel {
@@ -95,18 +90,13 @@
             padding: 10px 20px;
             border-radius: 50px;
             color: #ffdeff;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             z-index: 200;
             pointer-events: none;
             border: 1px solid #ff77aa;
             text-align: center;
             white-space: nowrap;
             max-width: 90%;
-            overflow-x: auto;
-        }
-
-        .info-panel span {
-            white-space: nowrap;
         }
 
         .music-controls {
@@ -131,30 +121,7 @@
             height: 44px;
             border-radius: 50%;
             cursor: pointer;
-            transition: 0.2s;
             color: #2a001f;
-            touch-action: manipulation;
-        }
-
-        .music-controls button:active {
-            transform: scale(0.95);
-        }
-
-        .instruction {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.6);
-            border-radius: 40px;
-            padding: 6px 16px;
-            color: #ffccdd;
-            font-size: 0.7rem;
-            pointer-events: none;
-            white-space: nowrap;
-            z-index: 200;
-            backdrop-filter: blur(4px);
-            display: none;
         }
 
         .modal {
@@ -169,12 +136,6 @@
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(8px);
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .modal-card {
@@ -186,35 +147,29 @@
             text-align: center;
             border: 2px solid #ff99dd;
             box-shadow: 0 0 60px rgba(255, 80, 180, 0.5);
-            animation: slideUp 0.3s ease;
             max-height: 90%;
             overflow-y: auto;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
 
         .modal-card img {
             width: 100%;
             max-height: 50vh;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 20px;
             border: 2px solid #ffaadd;
             margin-bottom: 15px;
+            background: #000;
         }
 
         .modal-card h2 {
             color: #ffd6f0;
             font-size: 1.4rem;
             margin-bottom: 10px;
-            text-shadow: 0 0 10px #ff66aa;
         }
 
         .modal-card p {
             color: #e0c0ff;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.4;
             margin-bottom: 20px;
             white-space: pre-wrap;
@@ -229,11 +184,6 @@
             font-weight: bold;
             color: #2c0a2a;
             cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .modal-card button:active {
-            transform: scale(0.96);
         }
 
         .close-modal {
@@ -245,39 +195,14 @@
             cursor: pointer;
             background: none;
             border: none;
-            font-weight: bold;
-            transition: 0.2s;
             z-index: 1001;
         }
 
         @media (min-width: 768px) {
-            .instruction {
-                display: block;
-            }
             .info-panel {
                 left: 20px;
                 right: auto;
                 transform: none;
-                white-space: normal;
-            }
-            .modal-card {
-                padding: 30px;
-            }
-            .modal-card h2 {
-                font-size: 1.8rem;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .music-controls button {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
-            .info-panel {
-                font-size: 0.7rem;
-                padding: 6px 14px;
-                bottom: 15px;
             }
         }
     </style>
@@ -291,7 +216,6 @@
         <br>
         <button id="enterUniverseBtn">✨ Открыть созвездие ✨</button>
         <p style="margin-top: 16px; color: #ccbbff; font-size: 0.75rem;">33 звезды воспоминаний + 1 звезда любви ❤️</p>
-        <p style="color: #aa88cc; font-size: 0.7rem;">📱 Работает на телефоне — крути пальцем</p>
     </div>
 </div>
 
@@ -303,8 +227,6 @@
     <button id="play3dMusic">🎵</button>
     <button id="pause3dMusic">⏸️</button>
 </div>
-
-<div class="instruction" id="instructionText" style="display: none;">✨ наведи/коснись звезды → узнай название | нажми → откроется фото ✨</div>
 
 <div class="modal" id="photoModal">
     <button class="close-modal" id="closeModalBtn">×</button>
@@ -329,7 +251,7 @@
     import * as THREE from 'three';
     import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-    // ========== 33 ВОСПОМИНАНИЯ ==========
+    // ========== ВОСПОМИНАНИЯ ==========
     const memories = [
         { title: "Пуговка", desc: "А это наша с тобой фотография на пуговке, единственная, такой больше ни у кого нет", photo: "images/1.jpg" },
         { title: "Пригорок", desc: "А здесь мы дурачимся на пригорке", photo: "images/2.jpg" },
@@ -366,377 +288,263 @@
         { title: "Поле", desc: "А здесь мы снова в поле, ты лучшее, что со мной случилось", photo: "images/34.jpg" }
     ];
 
+    // Текст для особенной звезды (исправлен)
+    const loveText = "Яночка, я хочу сказать, что я безумно сильно тебя люблю, моя радость, больше всех на свете, очень сильно обожаю, только тебя одну\n\nЯ решил это сделать не по какому то поводу, это для тебя, напоминание о том, как я сильно дорожу тобой, как я сильно дорожу нами\n\nЯ понимаю, что в последнее время тебе тяжело, ты устала от всего, устала быть дома, хочется свободы, тебе хочется своей жизни, уехать отсюда\n\nя все это понимаю Ян, я всего этого же хочу, что и ты, нужно просто потерпеть, и у нас все наладится, я обещаю\n\nЯн, знай, чтобы не случилось, чтобы не происходило, я всегда буду рядом, где бы я не находился, только с тобой, я навеки твой, и только твой\n\nЯ люблю тебя очень сильно, моя радость, больше всех на свете, только тебя одну, ты у меня единственная, самая прекрасная, неповторимая, самая дорогая, самая родная и самая любимая, самая лучшая, ты мое все Яночка, только ты одна\n\nСпасибо тебе просто за то что ты есть, всегда поддерживаешь меня и любишь, за то что ты всегда рядом, я очень сильно люблю тебя, Яночка\n\nКаждая из этих 33 звезд, это напоминание о том, через что мы прошли, и все эти звезды, это только начало.\n\nЯ тебя очень сильно люблю, твой Данька";
+
+    // Функция создания звезды (упрощена для телефона)
     function createStar(color, size = 0.32, isSpecial = false) {
         const group = new THREE.Group();
-
         const core = new THREE.Mesh(
-            new THREE.SphereGeometry(size * 0.5, 16, 16),
-            new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.6, metalness: 0.7 })
+            new THREE.SphereGeometry(size * 0.5, 8, 8),
+            new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.6 })
         );
         group.add(core);
-
-        const rayCount = isSpecial ? 8 : 5;
-        const rayLength = size * 1.5;
-        const rayWidth = size * 0.2;
-
+        
+        const rayCount = isSpecial ? 6 : 4;
+        const rayLength = size * 1.4;
         for (let i = 0; i < rayCount; i++) {
             const angle = (i / rayCount) * Math.PI * 2;
             const ray = new THREE.Mesh(
-                new THREE.ConeGeometry(rayWidth, rayLength, 8),
-                new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: isSpecial ? 0.7 : 0.5 })
+                new THREE.ConeGeometry(size * 0.18, rayLength, 4),
+                new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.5 })
             );
-            ray.position.set(Math.cos(angle) * (size * 0.7), Math.sin(angle) * (size * 0.7), 0);
+            ray.position.set(Math.cos(angle) * (size * 0.6), Math.sin(angle) * (size * 0.6), 0);
             ray.rotation.z = angle;
             group.add(ray);
         }
-
-        if (!isSpecial) {
-            for (let i = 0; i < 5; i++) {
-                const angle = (i / 5) * Math.PI * 2 + Math.PI / 5;
-                const ray = new THREE.Mesh(
-                    new THREE.ConeGeometry(rayWidth * 0.7, rayLength * 0.7, 6),
-                    new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.4 })
-                );
-                ray.position.set(Math.cos(angle) * (size * 0.5), Math.sin(angle) * (size * 0.5), 0);
-                ray.rotation.z = angle;
-                group.add(ray);
-            }
-        }
-
-        const glowMat = new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: isSpecial ? 0.2 : 0.1, side: THREE.BackSide });
-        const glow = new THREE.Mesh(new THREE.SphereGeometry(size * 1.1, 8, 8), glowMat);
-        group.add(glow);
-
         return group;
     }
 
+    // Создаём особенную звезду
     function createLoveStar() {
         const group = new THREE.Group();
-        const color = "#FFD700";
         const size = 0.55;
-
         const core = new THREE.Mesh(
-            new THREE.SphereGeometry(size * 0.6, 32, 32),
-            new THREE.MeshStandardMaterial({ color: color, emissive: "#FFAA00", emissiveIntensity: 0.8, metalness: 0.9 })
+            new THREE.SphereGeometry(size * 0.6, 16, 16),
+            new THREE.MeshStandardMaterial({ color: "#FFD700", emissive: "#FFAA00", emissiveIntensity: 0.8 })
         );
         group.add(core);
-
-        for (let i = 0; i < 8; i++) {
-            const angle = (i / 8) * Math.PI * 2;
+        for (let i = 0; i < 6; i++) {
+            const angle = (i / 6) * Math.PI * 2;
             const ray = new THREE.Mesh(
-                new THREE.ConeGeometry(0.13, size * 1.8, 8),
-                new THREE.MeshStandardMaterial({ color: "#FFCC44", emissive: "#FF8800", emissiveIntensity: 0.7 })
+                new THREE.ConeGeometry(0.12, size * 1.6, 4),
+                new THREE.MeshStandardMaterial({ color: "#FFCC44", emissive: "#FF8800", emissiveIntensity: 0.6 })
             );
-            ray.position.set(Math.cos(angle) * (size * 0.85), Math.sin(angle) * (size * 0.85), 0);
+            ray.position.set(Math.cos(angle) * (size * 0.8), Math.sin(angle) * (size * 0.8), 0);
             ray.rotation.z = angle;
             group.add(ray);
         }
-
         const ring = new THREE.Mesh(
-            new THREE.TorusGeometry(size * 1.1, 0.04, 32, 100),
-            new THREE.MeshStandardMaterial({ color: "#FFAA55", emissive: "#FF8800", emissiveIntensity: 0.5 })
+            new THREE.TorusGeometry(size * 1.0, 0.04, 16, 60),
+            new THREE.MeshStandardMaterial({ color: "#FFAA55", emissive: "#FF8800" })
         );
         group.add(ring);
-
-        const glow = new THREE.Mesh(
-            new THREE.SphereGeometry(size * 1.3, 16, 16),
-            new THREE.MeshBasicMaterial({ color: "#FFAA44", transparent: true, opacity: 0.2, side: THREE.BackSide })
-        );
-        group.add(glow);
-
         return { group, ring };
     }
 
+    // Инициализация сцены (упрощена для телефона)
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x010118);
-    scene.fog = new THREE.FogExp2(0x010118, 0.003);
+    scene.fog = new THREE.FogExp2(0x010118, 0.005);
 
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 1.5, 14);
 
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if (isMobile) {
-        camera.position.set(0, 1.5, 18);
-    } else {
-        camera.position.set(0, 2, 16);
-    }
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     document.body.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.4;
+    controls.autoRotateSpeed = 0.3;
     controls.enableZoom = true;
     controls.enablePan = false;
-    controls.enableTouchRotate = true;
-    controls.rotateSpeed = 1.0;
-    controls.zoomSpeed = 0.8;
     controls.target.set(0, 0, 0);
 
+    // Упрощённые фоновые звёзды
     const bgStarsGeo = new THREE.BufferGeometry();
-    const bgStarPositions = new Float32Array(1500 * 3);
-    for (let i = 0; i < 1500; i++) {
-        bgStarPositions[i*3] = (Math.random() - 0.5) * 400;
+    const bgStarPositions = new Float32Array(800 * 3);
+    for (let i = 0; i < 800; i++) {
+        bgStarPositions[i*3] = (Math.random() - 0.5) * 300;
         bgStarPositions[i*3+1] = (Math.random() - 0.5) * 200;
-        bgStarPositions[i*3+2] = (Math.random() - 0.5) * 150 - 50;
+        bgStarPositions[i*3+2] = (Math.random() - 0.5) * 100 - 50;
     }
     bgStarsGeo.setAttribute('position', new THREE.BufferAttribute(bgStarPositions, 3));
-    const bgStarsMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.15, transparent: true, opacity: 0.5 });
-    const backgroundStarsField = new THREE.Points(bgStarsGeo, bgStarsMat);
-    scene.add(backgroundStarsField);
+    const backgroundStars = new THREE.Points(bgStarsGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.12, transparent: true, opacity: 0.5 }));
+    scene.add(backgroundStars);
 
     const starsGroup = new THREE.Group();
     scene.add(starsGroup);
 
     const starObjects = [];
 
+    // Создаём 33 звезды
     for (let i = 0; i < memories.length; i++) {
         const mem = memories[i];
-        const radius = 5 + Math.random() * 3.5;
+        const radius = 4.5 + Math.random() * 3;
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos(2 * Math.random() - 1);
         const x = radius * Math.sin(phi) * Math.cos(theta);
-        const y = radius * Math.sin(phi) * Math.sin(theta) * 0.9;
+        const y = radius * Math.sin(phi) * Math.sin(theta) * 0.8;
         const z = radius * Math.cos(phi);
-
-        const starColor = ["#FFD700", "#FFC125", "#FFB90F", "#FFA500"][Math.floor(Math.random() * 4)];
-        const star = createStar(starColor, 0.32, false);
+        const starColor = ["#FFD700", "#FFC125", "#FFB90F"][Math.floor(Math.random() * 3)];
+        const star = createStar(starColor, 0.28, false);
         star.position.set(x, y, z);
-        star.userData = { title: mem.title, desc: mem.desc, photo: mem.photo, isSpecial: false, index: i };
-
         starsGroup.add(star);
-
         starObjects.push({
-            group: star,
-            title: mem.title,
-            desc: mem.desc,
-            photo: mem.photo,
-            isSpecial: false,
-            defaultX: x, defaultY: y, defaultZ: z,
-            floatSpeed: 0.3 + Math.random() * 0.6,
-            floatOffset: i * 0.07
+            group: star, title: mem.title, desc: mem.desc, photo: mem.photo, isSpecial: false,
+            defaultX: x, defaultY: y, defaultZ: z, floatSpeed: 0.3 + Math.random() * 0.5, floatOffset: i * 0.1
         });
     }
 
+    // Особенная звезда
     const loveStarData = createLoveStar();
     const loveStar = loveStarData.group;
-    const loveRing = loveStarData.ring;
-    loveStar.position.set(1.8, 1.2, 2.5);
-
-    const loveText = "Яночка, я хочу сказать, что я безумно сильно тебя люблю, моя радость, больше всех на свете, очень сильно обожаю, только тебя одну\n\nЯ решил это сделать не по какому то поводу, это для тебя, напоминание о том, как я сильно дорожу тобой, как я сильно дорожу нами\n\nЯ понимаю, что в последнее время тебе тяжело, ты устала от всего, устала быть дома, хочется свободы, тебе хочется своей жизни, уехать отсюда\n\nя все это понимаю Ян, я всего этого же хочу, что и ты, нужно просто потерпеть, и у нас все наладится, я обещаю\n\nЯн, знай, чтобы не случилось, чтобы не происходило, я всегда буду рядом, где бы я не находился, только с тобой, я навеки твой, и только твой\n\nЯ люблю тебя очень сильно, моя радость, больше всех на свете, только тебя одну, ты у меня единственная, самая прекрасная, неповторимая, самая дорогая, самая родная и самая любимая, самая лучшая, ты мое все Яночка, только ты одна\n\nСпасибо тебе просто за то что ты есть, всегда поддерживаешь меня и любишь, за то что ты всегда рядом, я очень сильно люблю тебя, Яночка\n\nКаждая из этих 33 звезд, это напоминание о том, через что мы прошли, и все эти звезды, это только начало.\n\nЯ тебя очень сильно люблю, твой Данька";
-
-    loveStar.userData = {
-        title: "💛 МОЯ ЛЮБОВЬ К ТЕБЕ 💛",
-        desc: loveText,
-        isSpecial: true,
-        photo: null
-    };
+    loveStar.position.set(1.5, 1, 2.2);
     starsGroup.add(loveStar);
-
     starObjects.push({
-        group: loveStar,
-        title: "💛 МОЯ ЛЮБОВЬ К ТЕБЕ 💛",
-        desc: loveText,
-        isSpecial: true,
-        photo: null,
-        defaultX: 1.8, defaultY: 1.2, defaultZ: 2.5,
-        floatSpeed: 0.5,
-        floatOffset: 999,
-        ring: loveRing
+        group: loveStar, title: "💛 МОЯ ЛЮБОВЬ К ТЕБЕ 💛", desc: loveText, isSpecial: true, photo: null,
+        defaultX: 1.5, defaultY: 1, defaultZ: 2.2, floatSpeed: 0.4, floatOffset: 999, ring: loveStarData.ring
     });
 
-    const ambientLight = new THREE.AmbientLight(0x221133);
+    // Освещение (упрощено)
+    const ambientLight = new THREE.AmbientLight(0x331144);
     scene.add(ambientLight);
-    const mainLight = new THREE.PointLight(0xffaaee, 0.7, 30);
-    mainLight.position.set(2, 4, 6);
+    const mainLight = new THREE.PointLight(0xffaaee, 0.6);
+    mainLight.position.set(2, 3, 5);
     scene.add(mainLight);
-    const backLight = new THREE.PointLight(0x6688ff, 0.4);
-    backLight.position.set(-2, -1, -5);
-    scene.add(backLight);
 
+    // Raycaster и обработка кликов
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     const infoSpan = document.getElementById('hoverMemoryText');
     let currentHovered = null;
 
-    function handleInteraction(x, y) {
+    function checkIntersection(x, y) {
         mouse.x = (x / renderer.domElement.clientWidth) * 2 - 1;
         mouse.y = -(y / renderer.domElement.clientHeight) * 2 + 1;
-
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(starObjects.map(s => s.group), true);
-
-        let hitStar = null;
         for (let i = 0; i < intersects.length; i++) {
             let obj = intersects[i].object;
             while (obj.parent) {
                 if (starObjects.find(s => s.group === obj)) {
-                    hitStar = obj;
-                    break;
+                    return starObjects.find(s => s.group === obj);
                 }
                 obj = obj.parent;
             }
-            if (hitStar) break;
         }
-
-        if (hitStar && starObjects.find(s => s.group === hitStar)) {
-            const hitData = starObjects.find(s => s.group === hitStar);
-            if (currentHovered !== hitStar) {
-                currentHovered = hitStar;
-                if (hitData.isSpecial) {
-                    infoSpan.innerHTML = `💛✨ ${hitData.title} ✨💛 — нажми, чтобы прочитать признание`;
-                } else {
-                    infoSpan.innerHTML = `📸 ${hitData.title} — нажми, чтобы открыть фото и историю`;
-                }
-            }
-            return hitData;
-        } else {
-            if (currentHovered) {
-                currentHovered = null;
-                infoSpan.innerHTML = `Наведи на звезду — узнай название | Кликни — откроется фото`;
-            }
-            return null;
-        }
+        return null;
     }
 
+    function updateHover(x, y) {
+        const hit = checkIntersection(x, y);
+        if (hit && currentHovered !== hit.group) {
+            if (currentHovered) currentHovered.children.forEach(c => { if (c.material) c.material.emissiveIntensity = 0.5; });
+            currentHovered = hit.group;
+            currentHovered.children.forEach(c => { if (c.material) c.material.emissiveIntensity = 1.0; });
+            infoSpan.innerHTML = hit.isSpecial ? `💛✨ ${hit.title} ✨💛` : `📸 ${hit.title}`;
+        } else if (!hit && currentHovered) {
+            currentHovered.children.forEach(c => { if (c.material) c.material.emissiveIntensity = 0.5; });
+            currentHovered = null;
+            infoSpan.innerHTML = `Наведи на звезду | Нажми — откроется фото`;
+        }
+        return hit;
+    }
+
+    // Модальное окно
     const modal = document.getElementById('photoModal');
     const modalImage = document.getElementById('modalImage');
     const modalTitle = document.getElementById('modalTitle');
     const modalDesc = document.getElementById('modalDesc');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const modalCloseBtn = document.getElementById('modalCloseBtn');
 
     function openModal(title, desc, photoUrl) {
-        modalImage.src = photoUrl;
+        if (photoUrl) { modalImage.src = photoUrl; modalImage.style.display = "block"; }
+        else { modalImage.style.display = "none"; }
         modalTitle.textContent = title;
         modalDesc.textContent = desc;
         modal.style.display = 'flex';
     }
+    function closeModal() { modal.style.display = 'none'; }
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
 
-    function closeModal() {
-        modal.style.display = 'none';
-    }
-
-    closeModalBtn.addEventListener('click', closeModal);
-    modalCloseBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
+    // Клики и касания
+    window.addEventListener('mousemove', (e) => updateHover(e.clientX, e.clientY));
+    window.addEventListener('click', (e) => {
+        const hit = updateHover(e.clientX, e.clientY);
+        if (hit) {
+            if (hit.isSpecial) alert(`💛💛💛 ${hit.title} 💛💛💛\n\n${hit.desc}\n\n✨ Твой Данька, который любит тебя больше всех на свете ✨`);
+            else openModal(hit.title, hit.desc, hit.photo);
+        }
     });
 
-    window.addEventListener('mousemove', (event) => {
-        handleInteraction(event.clientX, event.clientY);
-    });
-
-    window.addEventListener('click', (event) => {
-        const hitData = handleInteraction(event.clientX, event.clientY);
-        if (hitData) {
-            if (hitData.isSpecial) {
-                alert(`💛💛💛 ${hitData.title} 💛💛💛\n\n${hitData.desc}\n\n✨ Твой программист, который любит тебя больше всех звёзд на небе ✨`);
-            } else {
-                openModal(hitData.title, hitData.desc, hitData.photo);
+    // Touch для телефона
+    renderer.domElement.addEventListener('touchstart', (e) => {
+        if (e.touches.length) {
+            const hit = checkIntersection(e.touches[0].clientX, e.touches[0].clientY);
+            if (hit) {
+                if (hit.isSpecial) alert(`💛💛💛 ${hit.title} 💛💛💛\n\n${hit.desc}\n\n✨ Твой Данька, который любит тебя больше всех на свете ✨`);
+                else openModal(hit.title, hit.desc, hit.photo);
             }
         }
     });
-
-    let touchTimeout;
-    renderer.domElement.addEventListener('touchmove', (event) => {
-        event.preventDefault();
-        if (event.touches.length) {
-            handleInteraction(event.touches[0].clientX, event.touches[0].clientY);
-        }
+    renderer.domElement.addEventListener('touchmove', (e) => {
+        if (e.touches.length) updateHover(e.touches[0].clientX, e.touches[0].clientY);
     });
 
-    renderer.domElement.addEventListener('touchstart', (event) => {
-        if (event.touches.length) {
-            const hitData = handleInteraction(event.touches[0].clientX, event.touches[0].clientY);
-            if (hitData) {
-                touchTimeout = setTimeout(() => {
-                    if (hitData.isSpecial) {
-                        alert(`💛💛💛 ${hitData.title} 💛💛💛\n\n${hitData.desc}\n\n✨ Твой программист, который любит тебя больше всех звёзд на небе ✨`);
-                    } else {
-                        openModal(hitData.title, hitData.desc, hitData.photo);
-                    }
-                }, 100);
-            }
-        }
-    });
-
-    renderer.domElement.addEventListener('touchend', () => {
-        if (touchTimeout) clearTimeout(touchTimeout);
-    });
-
+    // Анимация
     let time = 0;
-
     function animate() {
         requestAnimationFrame(animate);
-        time += 0.012;
-
+        time += 0.015;
         starObjects.forEach((obj, idx) => {
-            if (!obj.isSpecial) {
-                obj.group.position.x = obj.defaultX + Math.sin(time * obj.floatSpeed + obj.floatOffset) * 0.06;
-                obj.group.position.y = obj.defaultY + Math.cos(time * obj.floatSpeed * 0.9 + idx) * 0.06;
-                obj.group.position.z = obj.defaultZ + Math.sin(time * obj.floatSpeed * 0.7 + idx) * 0.05;
-            } else {
-                obj.group.position.x = obj.defaultX + Math.sin(time * obj.floatSpeed) * 0.08;
-                obj.group.position.y = obj.defaultY + Math.cos(time * obj.floatSpeed * 1.2) * 0.06;
-                obj.group.position.z = obj.defaultZ + Math.sin(time * obj.floatSpeed * 0.9) * 0.05;
-                if (obj.ring) obj.ring.rotation.z = time * 2;
-            }
-
-            const scale = 1 + Math.sin(time * 3 + idx) * 0.04;
+            obj.group.position.x = obj.defaultX + Math.sin(time * obj.floatSpeed + obj.floatOffset) * 0.05;
+            obj.group.position.y = obj.defaultY + Math.cos(time * obj.floatSpeed * 0.8 + idx) * 0.05;
+            if (obj.ring) obj.ring.rotation.z = time * 2;
+            const scale = 1 + Math.sin(time * 2.5 + idx) * 0.03;
             obj.group.scale.set(scale, scale, scale);
         });
-
-        backgroundStarsField.rotation.y += 0.0002;
+        backgroundStars.rotation.y += 0.0003;
         controls.update();
         renderer.render(scene, camera);
     }
-
     animate();
 
+    // Вход и музыка
     const overlay = document.getElementById('introOverlay');
     const enterBtn = document.getElementById('enterUniverseBtn');
     const nameInput = document.getElementById('girlName');
     const infoPanel = document.getElementById('infoPanel');
     const musicPanel = document.getElementById('musicPanel');
-    const instr = document.getElementById('instructionText');
 
     const bgMusic = new Audio("song.mp3");
     bgMusic.loop = true;
-    bgMusic.volume = 0.35;
+    bgMusic.volume = 0.3;
 
     enterBtn.addEventListener('click', () => {
         let userName = nameInput.value.trim();
         if (userName === "") userName = "Яна";
         window.currentUserName = userName;
-
         overlay.style.opacity = '0';
         setTimeout(() => {
             overlay.style.display = 'none';
             infoPanel.style.display = 'block';
             musicPanel.style.display = 'flex';
-            instr.style.display = 'block';
         }, 1300);
     });
 
-    document.getElementById('play3dMusic').addEventListener('click', () => {
-        bgMusic.play().catch(e => console.log("кликни ещё раз"));
-    });
-    document.getElementById('pause3dMusic').addEventListener('click', () => {
-        bgMusic.pause();
-    });
+    document.getElementById('play3dMusic').addEventListener('click', () => bgMusic.play().catch(e => console.log()));
+    document.getElementById('pause3dMusic').addEventListener('click', () => bgMusic.pause());
 
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
-
-    console.log("✨ 33 звезды + 1 особенная готовы ✨");
 </script>
 </body>
 </html>
