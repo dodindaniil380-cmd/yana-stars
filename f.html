@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>34 звезды для Яны ✨</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Segoe UI', 'Poppins', 'Arial', sans-serif;
+            touch-action: none;
+        }
+
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #000000, #02000a);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1.5s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .intro-card {
+            background: rgba(20, 15, 45, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 180, 230, 0.6);
+            box-shadow: 0 0 80px rgba(255, 80, 180, 0.4);
+            animation: gentlePulse 2.5s infinite alternate;
+            width: 85%;
+            max-width: 400px;
+        }
+
+        @keyframes gentlePulse {
+            0% { box-shadow: 0 0 30px rgba(255,100,200,0.3); transform: scale(1);}
+            100% { box-shadow: 0 0 80px rgba(255,100,200,0.7); transform: scale(1.02);}
+        }
+
+        .intro-card h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #ffd6f0, #ff99dd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .intro-card input {
+            background: rgba(255,255,250,0.12);
+            border: 2px solid #ffa5d4;
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            color: #fff0fa;
+            text-align: center;
+            outline: none;
+            width: 80%;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .intro-card button {
+            background: linear-gradient(135deg, #ffaae0, #ff44aa);
+            border: none;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c0a2a;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 5px 20px #ff44aa;
+        }
+
+        .intro-card button:active {
+            transform: scale(0.98);
+        }
+
+        .info-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: #ffdeff;
+            font-size: 0.85rem;
+            z-index: 200;
+            pointer-events: none;
+            border: 1px solid #ff77aa;
+            text-align: center;
+            white-space: nowrap;
+            max-width: 90%;
+            overflow-x: auto;
+        }
+
+        .info-panel span {
+            white-space: nowrap;
+        }
+
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            padding: 8px 15px;
+            display: flex;
+            gap: 12px;
+            z-index: 200;
+            border: 1px solid #ff99cc;
+        }
+
+        .music-controls button {
+            background: #ff66aa;
+            border: none;
+            font-size: 1.3rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #2a001f;
+            touch-action: manipulation;
+        }
+
+        .music-controls button:active {
+            transform: scale(0.95);
+        }
+
+        .instruction {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.6);
+            border-radius: 40px;
+            padding: 6px 16px;
+            color: #ffccdd;
+            font-size: 0.7rem;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 200;
+            backdrop-filter: blur(4px);
+            display: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.96);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-card {
+            background: linear-gradient(135deg, #1a0f2a, #0d0720);
+            border-radius: 30px;
+            max-width: 90%;
+            width: 400px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #ff99dd;
+            box-shadow: 0 0 60px rgba(255, 80, 180, 0.5);
+            animation: slideUp 0.3s ease;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-card img {
+            width: 100%;
+            max-height: 50vh;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 2px solid #ffaadd;
+            margin-bottom: 15px;
+        }
+
+        .modal-card h2 {
+            color: #ffd6f0;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #ff66aa;
+        }
+
+        .modal-card p {
+            color: #e0c0ff;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+
+        .modal-card button {
+            background: linear-gradient(135deg, #ffaae0, #ff44aa);
+            border: none;
+            padding: 10px 28px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #2c0a2a;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .modal-card button:active {
+            transform: scale(0.96);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 40px;
+            color: #ff99cc;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-weight: bold;
+            transition: 0.2s;
+            z-index: 1001;
+        }
+
+        @media (min-width: 768px) {
+            .instruction {
+                display: block;
+            }
+            .info-panel {
+                left: 20px;
+                right: auto;
+                transform: none;
+                white-space: normal;
+            }
+            .modal-card {
+                padding: 30px;
+            }
+            .modal-card h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .music-controls button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            .info-panel {
+                font-size: 0.7rem;
+                padding: 6px 14px;
+                bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="intro-overlay" id="introOverlay">
+    <div class="intro-card">
+        <h1>🌟 34 звезды для тебя 🌟</h1>
+        <input type="text" id="girlName" placeholder="Твоё имя" value="Яна" autocomplete="off">
+        <br>
+        <button id="enterUniverseBtn">✨ Открыть созвездие ✨</button>
+        <p style="margin-top: 16px; color: #ccbbff; font-size: 0.75rem;">33 звезды воспоминаний + 1 звезда любви ❤️</p>
+        <p style="color: #aa88cc; font-size: 0.7rem;">📱 Работает на телефоне — крути пальцем</p>
+    </div>
+</div>
+
+<div class="info-panel" id="infoPanel" style="display: none;">
+    🌟 <span id="hoverMemoryText">Наведи на звезду</span>
+</div>
+
+<div class="music-controls" style="display: none;" id="musicPanel">
+    <button id="play3dMusic">🎵</button>
+    <button id="pause3dMusic">⏸️</button>
+</div>
+
+<div class="instruction" id="instructionText" style="display: none;">✨ наведи/коснись звезды → узнай название | нажми → откроется фото ✨</div>
+
+<div class="modal" id="photoModal">
+    <button class="close-modal" id="closeModalBtn">×</button>
+    <div class="modal-card">
+        <img id="modalImage" src="" alt="Фото">
+        <h2 id="modalTitle"></h2>
+        <p id="modalDesc"></p>
+        <button id="modalCloseBtn">✨ Закрыть ✨</button>
+    </div>
+</div>
+
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+        }
+    }
+</script>
+
+<script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // ========== 33 ВОСПОМИНАНИЯ ==========
+    const memories = [
+        { title: "Пуговка", desc: "А это наша с тобой фотография на пуговке, единственная, такой больше ни у кого нет", photo: "images/1.jpg" },
+        { title: "Пригорок", desc: "А здесь мы дурачимся на пригорке", photo: "images/2.jpg" },
+        { title: "Пригорок", desc: "Именно здесь все и началось, я безумно сильно тебя люблю", photo: "images/3.jpg" },
+        { title: "Поцелуй", desc: "А это первый наш внезапный поцелуй на камеру", photo: "images/4.jpg" },
+        { title: "Кошка", desc: "А это внезапное наше фото с уличной кошкой", photo: "images/5.jpg" },
+        { title: "Автобус", desc: "А здесь мы дурачились в маршрутке, типо 52", photo: "images/6.jpg" },
+        { title: "Мой сон", desc: "А здесь я сплю, и ты решила меня сфоткать", photo: "images/7.jpg" },
+        { title: "Твое ателье красоты", desc: "А здесь ты делаешь меня красивым, делай мне бровки", photo: "images/8.jpg" },
+        { title: "Концерт", desc: "а здесь между нами любовь, и это правда, навсегда люблю тебя, Яночка", photo: "images/9.jpg" },
+        { title: "Концерт", desc: "А здесь я решил тебя поцеловать на концерте, на нашем первом с тобой концерте", photo: "images/10.jpg" },
+        { title: "Ежик", desc: "А здесь я фотографирую тебя с ежиком, который просто переходил дорогу", photo: "images/11.jpg" },
+        { title: "Кот дебилка", desc: "А это ты с рыжим котом дебилом, который всегда поднимал нам настроение", photo: "images/12.jpg" },
+        { title: "Поле", desc: "А здесь я вывел тебя в поле, где мы решили сделать фотографий, я очень тебя люблю, Яночка", photo: "images/13.jpg" },
+        { title: "Поле", desc: "А это еще наши фотографии с поля", photo: "images/14.jpg" },
+        { title: "Шавуха", desc: "А здесь мы решили тебя побаловать шаухой с Брянска, которая и правда была вкусной", photo: "images/15.jpg" },
+        { title: "Зоопарк", desc: "А эта мы, фоткаемся с обезьянками", photo: "images/16.jpg" },
+        { title: "Ослик", desc: "А здесь мы с ослом, как будто в Шреке, и это моя очень любимая фотография", photo: "images/17.jpg" },
+        { title: "Лифт", desc: "А здесь мы просто спускались в лифте и решили сделать фотографию", photo: "images/18.jpg" },
+        { title: "Лифт", desc: "И это тоже наше с тобой фото из лифта, такого ни у кого нету", photo: "images/19.jpg" },
+        { title: "Брянск", desc: "А на этом фото мы снова с тобой дурачимся, и я это очень сильно люблю", photo: "images/20.jpg" },
+        { title: "Мини-свидание", desc: "А здесь мы устраивали наши мини-свидания в нашей комнате и смотрели фильмы", photo: "images/21.jpg" },
+        { title: "Мини-свидание", desc: "И это еще одно наше фото свиданий в нашей комнате", photo: "images/23.jpg" },
+        { title: "Аэропарк", desc: "А здесь мы устроили фото-сессия на фоне аэропарка, я безумно сильно тебя люблю", photo: "images/24.jpg" },
+        { title: "Курган", desc: "А здесь мы с тобой встречали рассвет, и я фоткал тебя с этим милым котиком", photo: "images/25.jpg" },
+        { title: "Маршрутка", desc: "А здесь мы снова дурачимся в автобусе", photo: "images/26.jpg" },
+        { title: "Пазлы", desc: "А здесь я тебе до поздной ночи лепил пазлы, чтобы сделать тебе сюрприз и порадовать тебя", photo: "images/27.jpg" },
+        { title: "Жопка", desc: "А тут ты решила сфоткаться с моей жопкой", photo: "images/28.jpg" },
+        { title: "Лента", desc: "А здесь мы решили устроить фотосессию в ленте, когда мериили вещи", photo: "images/29.jpg" },
+        { title: "Шапки", desc: "А здесь мы фоткали фотоотчет моей маме, что мы ходим в шапках в холод", photo: "images/30.jpg" },
+        { title: "Твое 19 летие", desc: "А здесь мы фоткаемся с твоей мамы, на твой крутой подарок", photo: "images/31.jpg" },
+        { title: "Пригорок", desc: "А это мы обнимаемся на пригорке, когда все только начинали", photo: "images/35.jpg" },
+        { title: "Годовщина", desc: "А здесь мы фоткаемся с твоим букетом, который я подарил тебе на нашу с тобой годовщину", photo: "images/36.jpg" },
+        { title: "Поле", desc: "А здесь мы снова в поле, ты лучшее, что со мной случилось", photo: "images/34.jpg" }
+    ];
+
+    function createStar(color, size = 0.32, isSpecial = false) {
+        const group = new THREE.Group();
+
+        const core = new THREE.Mesh(
+            new THREE.SphereGeometry(size * 0.5, 16, 16),
+            new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.6, metalness: 0.7 })
+        );
+        group.add(core);
+
+        const rayCount = isSpecial ? 8 : 5;
+        const rayLength = size * 1.5;
+        const rayWidth = size * 0.2;
+
+        for (let i = 0; i < rayCount; i++) {
+            const angle = (i / rayCount) * Math.PI * 2;
+            const ray = new THREE.Mesh(
+                new THREE.ConeGeometry(rayWidth, rayLength, 8),
+                new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: isSpecial ? 0.7 : 0.5 })
+            );
+            ray.position.set(Math.cos(angle) * (size * 0.7), Math.sin(angle) * (size * 0.7), 0);
+            ray.rotation.z = angle;
+            group.add(ray);
+        }
+
+        if (!isSpecial) {
+            for (let i = 0; i < 5; i++) {
+                const angle = (i / 5) * Math.PI * 2 + Math.PI / 5;
+                const ray = new THREE.Mesh(
+                    new THREE.ConeGeometry(rayWidth * 0.7, rayLength * 0.7, 6),
+                    new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.4 })
+                );
+                ray.position.set(Math.cos(angle) * (size * 0.5), Math.sin(angle) * (size * 0.5), 0);
+                ray.rotation.z = angle;
+                group.add(ray);
+            }
+        }
+
+        const glowMat = new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: isSpecial ? 0.2 : 0.1, side: THREE.BackSide });
+        const glow = new THREE.Mesh(new THREE.SphereGeometry(size * 1.1, 8, 8), glowMat);
+        group.add(glow);
+
+        return group;
+    }
+
+    function createLoveStar() {
+        const group = new THREE.Group();
+        const color = "#FFD700";
+        const size = 0.55;
+
+        const core = new THREE.Mesh(
+            new THREE.SphereGeometry(size * 0.6, 32, 32),
+            new THREE.MeshStandardMaterial({ color: color, emissive: "#FFAA00", emissiveIntensity: 0.8, metalness: 0.9 })
+        );
+        group.add(core);
+
+        for (let i = 0; i < 8; i++) {
+            const angle = (i / 8) * Math.PI * 2;
+            const ray = new THREE.Mesh(
+                new THREE.ConeGeometry(0.13, size * 1.8, 8),
+                new THREE.MeshStandardMaterial({ color: "#FFCC44", emissive: "#FF8800", emissiveIntensity: 0.7 })
+            );
+            ray.position.set(Math.cos(angle) * (size * 0.85), Math.sin(angle) * (size * 0.85), 0);
+            ray.rotation.z = angle;
+            group.add(ray);
+        }
+
+        const ring = new THREE.Mesh(
+            new THREE.TorusGeometry(size * 1.1, 0.04, 32, 100),
+            new THREE.MeshStandardMaterial({ color: "#FFAA55", emissive: "#FF8800", emissiveIntensity: 0.5 })
+        );
+        group.add(ring);
+
+        const glow = new THREE.Mesh(
+            new THREE.SphereGeometry(size * 1.3, 16, 16),
+            new THREE.MeshBasicMaterial({ color: "#FFAA44", transparent: true, opacity: 0.2, side: THREE.BackSide })
+        );
+        group.add(glow);
+
+        return { group, ring };
+    }
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x010118);
+    scene.fog = new THREE.FogExp2(0x010118, 0.003);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        camera.position.set(0, 1.5, 18);
+    } else {
+        camera.position.set(0, 2, 16);
+    }
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    document.body.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.4;
+    controls.enableZoom = true;
+    controls.enablePan = false;
+    controls.enableTouchRotate = true;
+    controls.rotateSpeed = 1.0;
+    controls.zoomSpeed = 0.8;
+    controls.target.set(0, 0, 0);
+
+    const bgStarsGeo = new THREE.BufferGeometry();
+    const bgStarPositions = new Float32Array(1500 * 3);
+    for (let i = 0; i < 1500; i++) {
+        bgStarPositions[i*3] = (Math.random() - 0.5) * 400;
+        bgStarPositions[i*3+1] = (Math.random() - 0.5) * 200;
+        bgStarPositions[i*3+2] = (Math.random() - 0.5) * 150 - 50;
+    }
+    bgStarsGeo.setAttribute('position', new THREE.BufferAttribute(bgStarPositions, 3));
+    const bgStarsMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.15, transparent: true, opacity: 0.5 });
+    const backgroundStarsField = new THREE.Points(bgStarsGeo, bgStarsMat);
+    scene.add(backgroundStarsField);
+
+    const starsGroup = new THREE.Group();
+    scene.add(starsGroup);
+
+    const starObjects = [];
+
+    for (let i = 0; i < memories.length; i++) {
+        const mem = memories[i];
+        const radius = 5 + Math.random() * 3.5;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        const x = radius * Math.sin(phi) * Math.cos(theta);
+        const y = radius * Math.sin(phi) * Math.sin(theta) * 0.9;
+        const z = radius * Math.cos(phi);
+
+        const starColor = ["#FFD700", "#FFC125", "#FFB90F", "#FFA500"][Math.floor(Math.random() * 4)];
+        const star = createStar(starColor, 0.32, false);
+        star.position.set(x, y, z);
+        star.userData = { title: mem.title, desc: mem.desc, photo: mem.photo, isSpecial: false, index: i };
+
+        starsGroup.add(star);
+
+        starObjects.push({
+            group: star,
+            title: mem.title,
+            desc: mem.desc,
+            photo: mem.photo,
+            isSpecial: false,
+            defaultX: x, defaultY: y, defaultZ: z,
+            floatSpeed: 0.3 + Math.random() * 0.6,
+            floatOffset: i * 0.07
+        });
+    }
+
+    const loveStarData = createLoveStar();
+    const loveStar = loveStarData.group;
+    const loveRing = loveStarData.ring;
+    loveStar.position.set(1.8, 1.2, 2.5);
+
+    const loveText = "Яночка, я хочу сказать, что я безумно сильно тебя люблю, моя радость, больше всех на свете, очень сильно обожаю, только тебя одну\n\nЯ решил это сделать не по какому то поводу, это для тебя, напоминание о том, как я сильно дорожу тобой, как я сильно дорожу нами\n\nЯ понимаю, что в последнее время тебе тяжело, ты устала от всего, устала быть дома, хочется свободы, тебе хочется своей жизни, уехать отсюда\n\nя все это понимаю Ян, я всего этого же хочу, что и ты, нужно просто потерпеть, и у нас все наладится, я обещаю\n\nЯн, знай, чтобы не случилось, чтобы не происходило, я всегда буду рядом, где бы я не находился, только с тобой, я навеки твой, и только твой\n\nЯ люблю тебя очень сильно, моя радость, больше всех на свете, только тебя одну, ты у меня единственная, самая прекрасная, неповторимая, самая дорогая, самая родная и самая любимая, самая лучшая, ты мое все Яночка, только ты одна\n\nСпасибо тебе просто за то что ты есть, всегда поддерживаешь меня и любишь, за то что ты всегда рядом, я очень сильно люблю тебя, Яночка\n\nКаждая из этих 33 звезд, это напоминание о том, через что мы прошли, и все эти звезды, это только начало.\n\nЯ тебя очень сильно люблю, твой Данька";
+
+    loveStar.userData = {
+        title: "💛 МОЯ ЛЮБОВЬ К ТЕБЕ 💛",
+        desc: loveText,
+        isSpecial: true,
+        photo: null
+    };
+    starsGroup.add(loveStar);
+
+    starObjects.push({
+        group: loveStar,
+        title: "💛 МОЯ ЛЮБОВЬ К ТЕБЕ 💛",
+        desc: loveText,
+        isSpecial: true,
+        photo: null,
+        defaultX: 1.8, defaultY: 1.2, defaultZ: 2.5,
+        floatSpeed: 0.5,
+        floatOffset: 999,
+        ring: loveRing
+    });
+
+    const ambientLight = new THREE.AmbientLight(0x221133);
+    scene.add(ambientLight);
+    const mainLight = new THREE.PointLight(0xffaaee, 0.7, 30);
+    mainLight.position.set(2, 4, 6);
+    scene.add(mainLight);
+    const backLight = new THREE.PointLight(0x6688ff, 0.4);
+    backLight.position.set(-2, -1, -5);
+    scene.add(backLight);
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    const infoSpan = document.getElementById('hoverMemoryText');
+    let currentHovered = null;
+
+    function handleInteraction(x, y) {
+        mouse.x = (x / renderer.domElement.clientWidth) * 2 - 1;
+        mouse.y = -(y / renderer.domElement.clientHeight) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(starObjects.map(s => s.group), true);
+
+        let hitStar = null;
+        for (let i = 0; i < intersects.length; i++) {
+            let obj = intersects[i].object;
+            while (obj.parent) {
+                if (starObjects.find(s => s.group === obj)) {
+                    hitStar = obj;
+                    break;
+                }
+                obj = obj.parent;
+            }
+            if (hitStar) break;
+        }
+
+        if (hitStar && starObjects.find(s => s.group === hitStar)) {
+            const hitData = starObjects.find(s => s.group === hitStar);
+            if (currentHovered !== hitStar) {
+                currentHovered = hitStar;
+                if (hitData.isSpecial) {
+                    infoSpan.innerHTML = `💛✨ ${hitData.title} ✨💛 — нажми, чтобы прочитать признание`;
+                } else {
+                    infoSpan.innerHTML = `📸 ${hitData.title} — нажми, чтобы открыть фото и историю`;
+                }
+            }
+            return hitData;
+        } else {
+            if (currentHovered) {
+                currentHovered = null;
+                infoSpan.innerHTML = `Наведи на звезду — узнай название | Кликни — откроется фото`;
+            }
+            return null;
+        }
+    }
+
+    const modal = document.getElementById('photoModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+    function openModal(title, desc, photoUrl) {
+        modalImage.src = photoUrl;
+        modalTitle.textContent = title;
+        modalDesc.textContent = desc;
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    modalCloseBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    window.addEventListener('mousemove', (event) => {
+        handleInteraction(event.clientX, event.clientY);
+    });
+
+    window.addEventListener('click', (event) => {
+        const hitData = handleInteraction(event.clientX, event.clientY);
+        if (hitData) {
+            if (hitData.isSpecial) {
+                alert(`💛💛💛 ${hitData.title} 💛💛💛\n\n${hitData.desc}\n\n✨ Твой программист, который любит тебя больше всех звёзд на небе ✨`);
+            } else {
+                openModal(hitData.title, hitData.desc, hitData.photo);
+            }
+        }
+    });
+
+    let touchTimeout;
+    renderer.domElement.addEventListener('touchmove', (event) => {
+        event.preventDefault();
+        if (event.touches.length) {
+            handleInteraction(event.touches[0].clientX, event.touches[0].clientY);
+        }
+    });
+
+    renderer.domElement.addEventListener('touchstart', (event) => {
+        if (event.touches.length) {
+            const hitData = handleInteraction(event.touches[0].clientX, event.touches[0].clientY);
+            if (hitData) {
+                touchTimeout = setTimeout(() => {
+                    if (hitData.isSpecial) {
+                        alert(`💛💛💛 ${hitData.title} 💛💛💛\n\n${hitData.desc}\n\n✨ Твой программист, который любит тебя больше всех звёзд на небе ✨`);
+                    } else {
+                        openModal(hitData.title, hitData.desc, hitData.photo);
+                    }
+                }, 100);
+            }
+        }
+    });
+
+    renderer.domElement.addEventListener('touchend', () => {
+        if (touchTimeout) clearTimeout(touchTimeout);
+    });
+
+    let time = 0;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        time += 0.012;
+
+        starObjects.forEach((obj, idx) => {
+            if (!obj.isSpecial) {
+                obj.group.position.x = obj.defaultX + Math.sin(time * obj.floatSpeed + obj.floatOffset) * 0.06;
+                obj.group.position.y = obj.defaultY + Math.cos(time * obj.floatSpeed * 0.9 + idx) * 0.06;
+                obj.group.position.z = obj.defaultZ + Math.sin(time * obj.floatSpeed * 0.7 + idx) * 0.05;
+            } else {
+                obj.group.position.x = obj.defaultX + Math.sin(time * obj.floatSpeed) * 0.08;
+                obj.group.position.y = obj.defaultY + Math.cos(time * obj.floatSpeed * 1.2) * 0.06;
+                obj.group.position.z = obj.defaultZ + Math.sin(time * obj.floatSpeed * 0.9) * 0.05;
+                if (obj.ring) obj.ring.rotation.z = time * 2;
+            }
+
+            const scale = 1 + Math.sin(time * 3 + idx) * 0.04;
+            obj.group.scale.set(scale, scale, scale);
+        });
+
+        backgroundStarsField.rotation.y += 0.0002;
+        controls.update();
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    const overlay = document.getElementById('introOverlay');
+    const enterBtn = document.getElementById('enterUniverseBtn');
+    const nameInput = document.getElementById('girlName');
+    const infoPanel = document.getElementById('infoPanel');
+    const musicPanel = document.getElementById('musicPanel');
+    const instr = document.getElementById('instructionText');
+
+    const bgMusic = new Audio("song.mp3");
+    bgMusic.loop = true;
+    bgMusic.volume = 0.35;
+
+    enterBtn.addEventListener('click', () => {
+        let userName = nameInput.value.trim();
+        if (userName === "") userName = "Яна";
+        window.currentUserName = userName;
+
+        overlay.style.opacity = '0';
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            infoPanel.style.display = 'block';
+            musicPanel.style.display = 'flex';
+            instr.style.display = 'block';
+        }, 1300);
+    });
+
+    document.getElementById('play3dMusic').addEventListener('click', () => {
+        bgMusic.play().catch(e => console.log("кликни ещё раз"));
+    });
+    document.getElementById('pause3dMusic').addEventListener('click', () => {
+        bgMusic.pause();
+    });
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    console.log("✨ 33 звезды + 1 особенная готовы ✨");
+</script>
+</body>
+</html>
